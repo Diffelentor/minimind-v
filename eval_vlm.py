@@ -33,8 +33,8 @@ def main():
     parser.add_argument('--load_from', default='model', type=str, help="模型加载路径（model=原生torch权重，其他路径=transformers格式）")
     parser.add_argument('--save_dir', default='out', type=str, help="模型权重目录")
     parser.add_argument('--weight', default='sft_vlm', type=str, help="权重名称前缀（pretrain_vlm, sft_vlm）")
-    parser.add_argument('--hidden_size', default=512, type=int, help="隐藏层维度（512=Small-26M, 768=Base-104M）")
-    parser.add_argument('--num_hidden_layers', default=8, type=int, help="隐藏层数量（Small=8, Base=16）")
+    parser.add_argument('--hidden_size', default=768, type=int, help="隐藏层维度（512=Small-26M, 768=Base-104M）")
+    parser.add_argument('--num_hidden_layers', default=16, type=int, help="隐藏层数量（Small=8, Base=16）")
     parser.add_argument('--use_moe', default=0, type=int, choices=[0, 1], help="是否使用MoE架构（0=否，1=是）")
     parser.add_argument('--max_new_tokens', default=512, type=int, help="最大生成长度")
     parser.add_argument('--temperature', default=0.65, type=float, help="生成温度，控制随机性（0-1，越大越随机）")
@@ -59,7 +59,7 @@ def main():
             inputs = tokenizer(inputs_text, return_tensors="pt", truncation=True).to(args.device)
             
             print(f'[图像]: {image_file}')
-            print(f'👶: {prompt.replace('\n', '\\n')}')
+            print("👶: {}".format(prompt.replace("\n", "\\n")))
             print('🤖️: ', end='')
             model.generate(
                 inputs=inputs["input_ids"], attention_mask=inputs["attention_mask"],
